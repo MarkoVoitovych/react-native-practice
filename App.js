@@ -1,12 +1,36 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, FlatList, Alert } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, View, Alert } from 'react-native';
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
 import { Navbar } from './src/components/Navbar';
 import { MainScreen } from './src/screens/MainScreen';
 import { TodoScreen } from './src/screens/TodoScreen';
 
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
+  const [isReady, setIsReady] = useState(false);
   const [todos, setTodos] = useState([]);
   const [todoId, setTodoId] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await (async () => {
+          await Font.loadAsync({
+            'roboto-regular': require('./assets/Roboto-Regular.ttf'),
+            'roboto-bold': require('./assets/Roboto-Bold.ttf'),
+          });
+        })();
+      } catch (e) {
+        Alert.alert(e.message);
+      } finally {
+        setIsReady(true);
+        SplashScreen.hideAsync();
+      }
+    })();
+  }, []);
 
   const handleAddTodo = (title) => {
     const newTodo = {
