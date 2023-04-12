@@ -9,7 +9,6 @@ import {
 
 import { AppText } from './AppText';
 import { THEME } from '../../theme';
-import { Touchable } from 'react-native';
 
 export const AppButton = ({ children, onPress, color = THEME.MAIN_COLOR }) => {
   const Wrapper =

@@ -7,11 +7,11 @@ import { AppButton } from './ui/AppButton';
 export const EditModal = ({ visible, onCancel, value, onSave }) => {
   const [title, setTitle] = useState(value.title);
 
-  const saveHandler = () => {
+  const saveHandler = async () => {
     if (title.trim().length < 3) {
       Alert.alert('Error', `Miminal title length 3 symbols.`);
     } else {
-      onSave({ id: value.id, title });
+      await onSave({ id: value.id, title });
       onCancel();
     }
   };
