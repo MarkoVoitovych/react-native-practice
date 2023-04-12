@@ -42,7 +42,7 @@ export const TodoScreen = () => {
         <View style={styles.button}>
           <AppButton
             color={THEME.DANGER_COLOR}
-            onPress={() => removeTodo(selectedTodo.id)}
+            onPress={async () => await removeTodo(selectedTodo.id)}
           >
             <FontAwesome name="remove" size={20} color="#fff" />
           </AppButton>
