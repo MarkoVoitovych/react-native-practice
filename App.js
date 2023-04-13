@@ -1,26 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
-import * as Font from 'expo-font';
+import { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, View, Alert, Text } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
 
-import { TodoState } from './src/context/todo/TodoState';
-import { MainLayout } from './src/MainLayout';
-import { ScreenState } from './src/context/screen/ScreenState';
+import fonts from './src/assets/fonts/fonts';
+import { AppNavigation } from './src/navigation/AppNavigation';
 
-SplashScreen.preventAutoHideAsync();
+function App() {
+  return <AppNavigation />;
+}
 
-export default function App() {
+export default () => {
   const [isReady, setIsReady] = useState(false);
+  SplashScreen.preventAutoHideAsync();
+
+  const loadFonts = async () => {
+    await Font.loadAsync(fonts);
+  };
 
   useEffect(() => {
     (async () => {
       try {
-        await (async () => {
-          await Font.loadAsync({
-            'roboto-regular': require('./assets/Roboto-Regular.ttf'),
-            'roboto-bold': require('./assets/Roboto-Bold.ttf'),
-          });
-        })();
+        await loadFonts();
       } catch (e) {
         Alert.alert(e.message);
       } finally {
@@ -33,12 +34,14 @@ export default function App() {
   if (!isReady) {
     return null;
   } else {
-    return (
-      <ScreenState>
-        <TodoState>
-          <MainLayout />
-        </TodoState>
-      </ScreenState>
-    );
+    return <App />;
   }
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
